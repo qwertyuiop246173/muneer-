@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "expo-router": "^5.1.6"
+  },
+  "devDependencies": {
+    "metro": "^0.76.7"
+  }
+}
