@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "expo": "^53.0.22",
+    "metro": "^0.83.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-native": "^0.81.1",
+    "react-native-web": "^0.21.1"
+  }
+}

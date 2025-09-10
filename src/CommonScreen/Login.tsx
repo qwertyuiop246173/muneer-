@@ -1,71 +1,59 @@
+// app/login.tsx
+
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
+
 export default function Login() {
-  const [mobile, setMobile] = useState("");
   const router = useRouter();
+  const [mobile, setMobile] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
-  const [codeModalVisible, setCodeModalVisible] = useState(false);
-  const ITEM_HEIGHT = 48;
 
   return (
-    <View style={styles.container}>
-      {/* Language Dropdown (Top Right) */}
-      <TouchableOpacity
-        style={styles.languageButton}
-        onPress={() => {
-          /* open language selector */
-        }}
-      >
+    <ScrollView
+      contentContainerStyle={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Language Selector */}
+      <TouchableOpacity style={styles.languageButton}>
         <Image
-          source={require('../../../assets/icon/login/Globe.png')}
-            style={styles.languageIcon}
+          source={require("../../../assets/icon/login/Globe.png")}
+          style={styles.languageIcon}
         />
         <Text style={styles.languageText}>Marathi</Text>
       </TouchableOpacity>
 
-
       {/* Title */}
       <Text style={styles.title}>Login</Text>
 
-      {/* Illustration Image */}
-      <Image
-        source={require("../../../assets/images/Login.png")}
-        style={styles.image}
-        resizeMode="contain"
-      />
+      {/* Illustration */}
+      <View style={styles.imageWrapper}>
+        <Image
+          source={require("../../../assets/images/Login.png")}
+          style={styles.image}
+        />
+      </View>
 
       {/* Input Label */}
       <Text style={styles.label}>Enter your mobile number</Text>
 
-      {/* Input with Country Code */}
-      {/* <View style={styles.inputContainer}>
-        <Text style={styles.countryCode}>+91</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="8985456325"
-          keyboardType="phone-pad"
-          value={mobile}
-          onChangeText={setMobile}
-        />
-        <Text style={styles.checkmark}>✔</Text>
-      </View> */}
-      {/* Input with Country Code (tap to open selector) */}
+      {/* Mobile Input */}
       <View style={styles.inputContainer}>
-        <TouchableOpacity
-          style={styles.countryButton}
-          onPress={() => setCodeModalVisible(true)}
-        >
+        <TouchableOpacity style={styles.countryButton}>
           <Text style={styles.countryCode}>{countryCode}</Text>
-          <Image  source={require('../../../assets/icon/login/Drop_Down.png')}/>
+          <Image
+            source={require("../../../assets/icon/login/Drop_Down.png")}
+          />
         </TouchableOpacity>
+
         <TextInput
           style={styles.input}
           placeholder="8985456325"
@@ -73,10 +61,9 @@ export default function Login() {
           value={mobile}
           onChangeText={setMobile}
         />
-        <Text style={styles.checkmark}>✔</Text>
-      </View>
-      
 
+        {mobile.length === 10 && <Text style={styles.checkmark}>✔</Text>}
+      </View>
 
       {/* Login Button */}
       <TouchableOpacity
@@ -86,26 +73,29 @@ export default function Login() {
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
 
-      {/* Signup Text */}
+      {/* Signup Footer */}
       <Text style={styles.footerText}>
         Don’t have an account?{" "}
-        <Text >
-          Sign Up
-        </Text>
+        <Text style={styles.signUp}>Sign Up</Text>
       </Text>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 20,
+    paddingBottom: 60,
     paddingTop: 40,
   },
   languageButton: {
-    alignSelf: "flex-end",
+    position: "absolute",
+    top: 40,
+    right: 20,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
@@ -114,7 +104,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
-    marginBottom: 20,
+    zIndex: 1,
   },
   languageIcon: {
     width: 18,
@@ -123,40 +113,35 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   languageText: {
-    fontFamily: "Nunito_600SemiBold",
-    fontWeight: "600",
-    fontStyle: "normal",
     fontSize: 14,
-    lineHeight: 14, // 100% of 14px
-    letterSpacing: 0,
-    textAlign: "right",
-    textAlignVertical: "bottom",
+    fontWeight: "600",
     color: "#252525",
   },
   title: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
     color: "#000",
   },
-  image: {
-    // width: 367,
-    // height: 381,
-    // top: -50,
-    // left:0,
-    alignSelf: "center",
+  imageWrapper: {
+    width: "60%",
+    aspectRatio: 1,
     marginBottom: 25,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
   },
   label: {
-    fontFamily: "Nunito_600SemiBold",
+    fontSize: 16,
     fontWeight: "600",
-    fontStyle: "normal",
-    fontSize: 16.43,
-    lineHeight: 25.81,
-    letterSpacing: 0.82, // 5% of 16.43 ≈ 0.82px
     marginBottom: 10,
     color: "#000",
+    alignSelf: "flex-start",
   },
   inputContainer: {
     flexDirection: "row",
@@ -166,52 +151,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     height: 50,
+    width: "100%",
     marginBottom: 20,
-  },
-  countryCode: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginRight: 8,
   },
   countryButton: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    borderRadius: 8,
     marginRight: 8,
   },
-  downArrow: {
-    marginLeft: 6,
-    fontSize: 14,
-    color: "#555",
-      },
-  // dropdown shown inline below the input
-  dropdownBox: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    marginBottom: 10,
-    // slight shadow (iOS/Android)
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  countryItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  countryLabel: {
+  countryCode: {
     fontSize: 16,
+    fontWeight: "500",
+    marginRight: 4,
   },
   input: {
     flex: 1,
     fontSize: 16,
+    paddingVertical: 8,
   },
   checkmark: {
     fontSize: 18,
@@ -223,6 +179,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 25,
     alignItems: "center",
+    width: "100%",
+    maxWidth: 300,
+    alignSelf: "center",
     marginTop: 10,
   },
   loginText: {
@@ -237,7 +196,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   signUp: {
-    color: "#44D7B6",
+    color: "#00bfa6",
     fontWeight: "600",
   },
 });
